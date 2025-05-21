@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern Registration Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary-color: #f72585;
+      --light-gray: #f8f9fa;
+      --medium-gray: #e9ecef;
+      --dark-gray: #6c757d;
+      --text-color: #212529;
+      --error-color: #dc3545;
+      --success-color: #28a745;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--light-gray);
+      color: var(--text-color);
+      line-height: 1.6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    .form-header {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: white;
+      padding: 25px;
+      text-align: center;
+    }
+
+    .form-header h1 {
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+
+    .form-header p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .form-body {
+      padding: 25px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 15px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-color);
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 12px 15px;
+      font-size: 1rem;
+      border: 1px solid var(--medium-gray);
+      border-radius: 8px;
+      background-color: white;
+      transition: all 0.3s ease;
+    }
+
+    .input-field:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+      outline: none;
+    }
+
+    .input-field.error {
+      border-color: var(--error-color);
+    }
+
+    .error-message {
+      color: var(--error-color);
+      font-size: 0.8rem;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .show-password {
+      position: absolute;
+      right: 15px;
+      top: 40px;
+      background: none;
+      border: none;
+      color: var(--dark-gray);
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .password-strength {
+      height: 4px;
+      background: var(--medium-gray);
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .password-strength-bar {
+      height: 100%;
+      width: 0;
+      background: var(--error-color);
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .submit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+      transform: translateY(-2px);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+      background: var(--medium-gray);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .form-footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: var(--dark-gray);
+    }
+
+    .form-footer a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .form-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+      
+      .form-header {
+        padding: 20px 15px;
+      }
+      
+      .form-body {
+        padding: 20px 15px;
+      }
+      
+      .input-field {
+        padding: 12px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      body {
+        padding: 10px;
+      }
+      
+      .form-header h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="form-header">
+      <h1>Create Account</h1>
+      <p>Join our community today</p>
+    </div>
+    
+    <div class="form-body">
+      <form id="signup-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstname">First Name</label>
+            <input type="text" id="firstname" class="input-field" name="firstname" required>
+            <div class="error-message" id="firstname-error">Please enter your first name</div>
+          </div>
+          
+          <div class="form-group">
+            <label for="lastname">Last Name</label>
+            <input type="text" id="lastname" class="input-field" name="lastname" required>
+            <div class="error-message" id="lastname-error">Please enter your last name</div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" class="input-field" name="email" required>
+          <div class="error-message" id="email-error">Please enter a valid email address</div>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" class="input-field" name="password" required minlength="8">
+          <button type="button" class="show-password" aria-label="Show password">Show</button>
+          <div class="password-strength">
+            <div class="password-strength-bar" id="password-strength-bar"></div>
+          </div>
+          <div class="error-message" id="password-error">Password must be at least 8 characters</div>
+        </div>
+        
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password</label>
+          <input type="password" id="confirm-password" class="input-field" name="confirm_password" required>
+          <div class="error-message" id="confirm-password-error">Passwords don't match</div>
+        </div>
+        
+        <button type="submit" class="submit-btn" id="submit-btn">
+          <span id="submit-text">Create Account</span>
+        </button>
+      </form>
+      
+      <div class="form-footer">
+        Already have an account? <a href="#">Sign In</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    // Initialize EmailJS
+    (function(){
+      emailjs.init("BPl4WekWAGX8AzDXB"); // Replace with your actual EmailJS user ID
+    })();
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('signup-form');
+      const passwordInput = document.getElementById('password');
+      const confirmPasswordInput = document.getElementById('confirm-password');
+      const passwordStrengthBar = document.getElementById('password-strength-bar');
+      const showPasswordBtn = document.querySelector('.show-password');
+      const submitBtn = document.getElementById('submit-btn');
+      const submitText = document.getElementById('submit-text');
+
+      // Toggle password visibility
+      showPasswordBtn.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        confirmPasswordInput.setAttribute('type', type);
+        this.textContent = type === 'password' ? 'Show' : 'Hide';
+      });
+
+      // Password strength indicator
+      passwordInput.addEventListener('input', function() {
+        const strength = calculatePasswordStrength(this.value);
+        updatePasswordStrengthBar(strength);
+      });
+
+      function calculatePasswordStrength(password) {
+        let strength = 0;
+        
+        // Length check
+        if (password.length >= 8) strength += 1;
+        if (password.length >= 12) strength += 1;
+        
+        // Character variety
+        if (/[A-Z]/.test(password)) strength += 1; // Uppercase
+        if (/[a-z]/.test(password)) strength += 1; // Lowercase
+        if (/[0-9]/.test(password)) strength += 1; // Numbers
+        if (/[^A-Za-z0-9]/.test(password)) strength += 1; // Special chars
+        
+        return Math.min(strength, 5); // Cap at 5 for our strength meter
+      }
+
+      function updatePasswordStrengthBar(strength) {
+        const colors = ['#dc3545', '#fd7e14', '#ffc107', '#28a745', '#20c997'];
+        const width = (strength / 5) * 100;
+        
+        passwordStrengthBar.style.width = width + '%';
+        passwordStrengthBar.style.backgroundColor = colors[strength - 1] || colors[0];
+      }
+
+      // Form validation
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (validateForm()) {
+          submitForm();
+        }
+      });
+
+      function validateForm() {
+        let isValid = true;
+        
+        // Validate first name
+        const firstName = document.getElementById('firstname').value.trim();
+        if (firstName === '') {
+          showError('firstname-error', 'Please enter your first name');
+          isValid = false;
+        } else {
+          hideError('firstname-error');
+        }
+        
+        // Validate last name
+        const lastName = document.getElementById('lastname').value.trim();
+        if (lastName === '') {
+          showError('lastname-error', 'Please enter your last name');
+          isValid = false;
+        } else {
+          hideError('lastname-error');
+        }
+        
+        // Validate email
+        const email = document.getElementById('email').value.trim();
+        if (!isValidEmail(email)) {
+          showError('email-error', 'Please enter a valid email address');
+          isValid = false;
+        } else {
+          hideError('email-error');
+        }
+        
+        // Validate password
+        const password = passwordInput.value;
+        if (password.length < 8) {
+          showError('password-error', 'Password must be at least 8 characters');
+          isValid = false;
+        } else {
+          hideError('password-error');
+        }
+        
+        // Validate password confirmation
+        const confirmPassword = confirmPasswordInput.value;
+        if (password !== confirmPassword) {
+          showError('confirm-password-error', 'Passwords don\'t match');
+          isValid = false;
+        } else {
+          hideError('confirm-password-error');
+        }
+        
+        return isValid;
+      }
+
+      function isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      }
+
+      function showError(id, message) {
+        const errorElement = document.getElementById(id);
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+        const inputField = errorElement.previousElementSibling;
+        if (inputField.classList.contains('input-field')) {
+          inputField.classList.add('error');
+        }
+      }
+
+      function hideError(id) {
+        const errorElement = document.getElementById(id);
+        errorElement.style.display = 'none';
+        const inputField = errorElement.previousElementSibling;
+        if (inputField.classList.contains('input-field')) {
+          inputField.classList.remove('error');
+        }
+      }
+
+      function submitForm() {
+        // Show loading state
+        submitBtn.disabled = true;
+        submitText.innerHTML = '<span class="loading"></span> Processing...';
+        
+        // Send form data via EmailJS
+        emailjs.sendForm("service_3s7qqzj", "template_ugaa0bh", form)
+          .then(function(response) {
+            // Show success message
+            alert('Registration successful! Welcome to our community.');
+            form.reset();
+          }, function(error) {
+            // Show error message
+            alert('There was an error submitting your form. Please try again.');
+            console.error('EmailJS Error:', error);
+          })
+          .finally(function() {
+            // Reset button state
+            submitBtn.disabled = false;
+            submitText.textContent = 'Create Account';
+          });
+      }
+      
+      // Real-time validation for better UX
+      document.querySelectorAll('.input-field').forEach(input => {
+        input.addEventListener('blur', function() {
+          validateForm();
+        });
+      });
+    });
+  </script>
+</body>
+</html>
