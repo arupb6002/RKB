@@ -1,0 +1,19 @@
+@font-face {
+  font-family: 'Hylia';
+  src: url('fonts/Hylia.otf') format('opentype');
+}
+.logo {
+  display: block;
+  margin: 0 auto;
+  width: 300px;
+}
+.box {
+  border: 2px solid black;
+  font-family: Hylia;
+  padding: 14px 24px;
+  font-size: 20px;
+  color: #333;
+  text-align: center;
+  width: fit-content;
+  margin: 0 auto 10px auto;
+}
